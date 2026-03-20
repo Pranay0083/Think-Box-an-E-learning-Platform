@@ -221,43 +221,41 @@ const CourseDetails = () => {
               <span>{course.rating} rating</span>
             </div>
           </div>
-          <button
-            className="enroll-button"
-            onClick={isEnrolled ? handleStartCourse : openModal}
-            disabled={loading}
-          >
-            {isEnrolled ? 'Start Learning Now' : 'Enroll Now'}
-          </button>
-          {isEnrolled && (
+          <div className="cd-actions">
             <button
-              className="enroll-button"
-              onClick={handleRemoveEnrollment}
+              className="cd-btn cd-btn--primary"
+              onClick={isEnrolled ? handleStartCourse : openModal}
               disabled={loading}
-              style={{ backgroundColor: "red" }}
             >
-              Remove Enrollment
+              {isEnrolled ? 'Start Learning Now' : 'Enroll Now'}
             </button>
-          )}
-          {canUpdateCourse && (
-            <>
+            {isEnrolled && (
               <button
-                className="enroll-button"
-                onClick={() => navigate(`/updatecourse/${courseId}`)}
+                className="cd-btn cd-btn--danger-outline"
+                onClick={handleRemoveEnrollment}
                 disabled={loading}
-                style={{ backgroundColor: "green" }}
               >
-                Update Course
+                Remove Enrollment
               </button>
-              <button 
-              className="enroll-button"
-              onClick={openDeleteModal}
-              style={{ backgroundColor: "red" }}
-              >
-                Delete Course
+            )}
+            {canUpdateCourse && (
+              <>
+                <button
+                  className="cd-btn cd-btn--secondary"
+                  onClick={() => navigate(`/updatecourse/${courseId}`)}
+                  disabled={loading}
+                >
+                  Update Course
                 </button>
-            </>
-
-          )}
+                <button
+                  className="cd-btn cd-btn--danger-outline"
+                  onClick={openDeleteModal}
+                >
+                  Delete Course
+                </button>
+              </>
+            )}
+          </div>
         </div>
         <div className="course-preview">
           <img src={course.image} alt={course.title} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom'
-import { Search, Star, Award, Users } from 'lucide-react';
+import { Search, Star, Award, Users, ArrowRight, User } from 'lucide-react';
 import './InstructorPage.css';
 import { getAllInstructors } from '../../services/api';
 import Loader from '../../components/common/Loader/Loader';
@@ -48,9 +48,9 @@ const InstructorPage = () => {
         <p>Learn from industry leaders with proven expertise</p>
       </div>
 
-      <div className="search-filters">
-        <div className="search-bar">
-          <Search size={20} />
+      <div className="ip-toolbar">
+        <div className="ip-search">
+          <Search size={18} className="ip-search-icon" />
           <input
             type="text"
             placeholder="Search instructors..."
@@ -58,64 +58,57 @@ const InstructorPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-
-        <div className="expertise-filters">
-          <button
-            className={`filter-btn ${selectedExpertise === 'all' ? 'active' : ''}`}
-            onClick={() => setSelectedExpertise('all')}
-          >
-            All
-          </button>
-          <button
-            className={`filter-btn ${selectedExpertise === 'Web Development' ? 'active' : ''}`}
-            onClick={() => setSelectedExpertise('Web Development')}
-          >
-            Web Development
-          </button>
-          <button
-            className={`filter-btn ${selectedExpertise === 'Data Science' ? 'active' : ''}`}
-            onClick={() => setSelectedExpertise('Data Science')}
-          >
-            Data Science
-          </button>
-          <button
-            className={`filter-btn ${selectedExpertise === 'UX Design' ? 'active' : ''}`}
-            onClick={() => setSelectedExpertise('UX Design')}
-          >
-            UX Design
-          </button>
-        </div>
       </div>
 
-      <div className="instructors-grid">
+      <div className="ip-tags">
+        {['all', 'Web Development', 'Data Science', 'UX Design'].map((tag) => (
+          <button
+            key={tag}
+            className={`ip-tag ${selectedExpertise === tag ? 'ip-tag--active' : ''}`}
+            onClick={() => setSelectedExpertise(tag)}
+          >
+            {tag === 'all' ? 'All' : tag}
+          </button>
+        ))}
+      </div>
+
+      <div className="ip-grid">
         {filteredInstructors.map((instructor) => (
           <div
             key={instructor._id}
-            className="instructor-card"
+            className="ip-card"
             onClick={() => navigate(`/instructor/${instructor._id}`)}
           >
-            <div className="instructor-image">
-              <img src={instructor.image} alt={instructor.name} />
+            <div className="ip-card-image">
+              {instructor.image ? (
+                <img src={instructor.image} alt={instructor.name} />
+              ) : (
+                <div className="ip-card-placeholder">
+                  <User size={48} />
+                  <span>{instructor.name?.charAt(0)?.toUpperCase()}</span>
+                </div>
+              )}
             </div>
-            <div className="instructor-content">
-              <h3>{instructor.name}</h3>
-              <span className="expertise">{instructor.expertise}</span>
-              <p>{instructor.bio}</p>
-              <div className="instructor-stats">
-                <div className="stat">
-                  <Star size={16} />
+            <div className="ip-card-body">
+              <h3 className="ip-card-name">{instructor.name}</h3>
+              <p className="ip-card-bio">{instructor.bio}</p>
+              <div className="ip-card-stats">
+                <div className="ip-stat">
+                  <Star size={14} fill="currentColor" className="ip-stat-star" />
                   <span>{instructor.rating}</span>
                 </div>
-                <div className="stat">
-                  <Users size={16} />
-                  {/* {instructor.students.toLocaleString() ? instructor.students.toLocaleString() : 0} students */}
-                </div>
-                <div className="stat">
-                  <Award size={16} />
+                <div className="ip-stat">
+                  <Award size={14} />
                   <span>{instructor.courses} courses</span>
                 </div>
+                <div className="ip-stat">
+                  <Users size={14} />
+                  <span>Students</span>
+                </div>
               </div>
-              <button className="view-profile">View Profile</button>
+              <button className="ip-card-btn">
+                View Profile <ArrowRight size={14} />
+              </button>
             </div>
           </div>
         ))}

@@ -20,147 +20,227 @@
   font-size: 1.125rem;
 }
 
-.search-filters {
-  margin-bottom: 3rem;
+/* ── Toolbar ── */
+.ip-toolbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
-.search-bar {
+.ip-search {
+  flex: 1;
+  max-width: 520px;
   display: flex;
   align-items: center;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  padding: 0.75rem 1.5rem;
+  gap: 0.75rem;
+  padding: 0.7rem 1.25rem;
   background: var(--color-card);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px var(--color-shadow);
+  border-radius: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.search-bar svg {
+.ip-search:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.ip-search-icon {
   color: var(--color-text-muted);
-  margin-right: 0.75rem;
+  flex-shrink: 0;
 }
 
-.search-bar input {
-  width: 100%;
+.ip-search input {
+  flex: 1;
   border: none;
   outline: none;
-  font-size: 1rem;
+  background: transparent;
+  font-size: 0.95rem;
   color: var(--color-text);
 }
 
-.expertise-filters {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+.ip-search input::placeholder {
+  color: var(--color-text-muted);
 }
 
-.filter-btn {
-  padding: 0.5rem 1.5rem;
+/* ── Filter tags ── */
+.ip-tags {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.ip-tag {
+  padding: 0.45rem 1.1rem;
   border: 1px solid var(--color-border);
   border-radius: 999px;
   background: var(--color-card);
   color: var(--color-text-muted);
+  font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.filter-btn:hover {
+.ip-tag:hover {
   background: var(--color-bg-elevated);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
 }
 
-.filter-btn.active {
+.ip-tag--active {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-primary-contrast);
   border-color: var(--color-primary);
 }
 
-.instructors-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+.ip-tag--active:hover {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: var(--color-primary-contrast);
 }
 
-.instructor-card {
+/* ── Card grid ── */
+.ip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ── Card ── */
+.ip-card {
   background: var(--color-card);
+  border: 1px solid var(--color-border);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 6px var(--color-shadow);
-  transition: transform 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.instructor-card:hover {
-  transform: translateY(-5px);
+.ip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px var(--color-shadow-lg);
+  border-color: var(--color-primary);
 }
 
-.instructor-image {
-  height: 200px;
+/* ── Image ── */
+.ip-card-image {
+  position: relative;
+  height: 210px;
   overflow: hidden;
 }
 
-.instructor-image img {
+.ip-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
-.instructor-content {
-  padding: 1.5rem;
+.ip-card:hover .ip-card-image img {
+  transform: scale(1.06);
 }
 
-.instructor-content h3 {
-  font-size: 1.25rem;
-  color: var(--color-text);
-  margin-bottom: 0.5rem;
-}
-
-.expertise {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  background: var(--color-bg-elevated);
-  color: var(--color-text-muted);
-  border-radius: 999px;
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
-}
-
-.instructor-content p {
-  color: var(--color-text-muted);
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.instructor-stats {
+/* ── No-image placeholder ── */
+.ip-card-placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.stat {
+.ip-card-placeholder span {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* ── Body ── */
+.ip-card-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.ip-card-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+}
+
+.ip-card-bio {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Stats row ── */
+.ip-card-stats {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.ip-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
   color: var(--color-text-muted);
-  font-size: 0.875rem;
 }
 
-.view-profile {
+.ip-stat-star {
+  color: var(--color-star);
+}
+
+/* ── Button ── */
+.ip-card-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
   width: 100%;
-  padding: 0.75rem;
-  background: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
+  padding: 0.65rem 1rem;
+  margin-top: auto;
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
-.view-profile:hover {
-  background: var(--color-primary-600);
+.ip-card-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.ip-card-btn:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
@@ -172,12 +252,6 @@
     font-size: 2rem;
   }
 
-  .expertise-filters {
-    gap: 0.5rem;
-  }
-
-  .filter-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-  }
+  .ip-tags { gap: 0.4rem; }
+  .ip-tag { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
 }
