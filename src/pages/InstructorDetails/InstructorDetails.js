@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Star, Award, Users, BookOpen, Mail, Linkedin, Twitter } from 'lucide-react';
 import CourseCard from '../../components/common/CourseCard/CourseCard';
+import Loader from '../../components/common/Loader/Loader';
 import './InstructorDetails.css';
-import { getCourses, getInstructor } from '../../services/api';
+import { getInstructor } from '../../services/api';
+import { useToast } from '../../components/common/Toast/ToastProvider';
+import getErrorMessage from '../../utils/getErrorMessage';
+import EmptyState from '../../components/common/EmptyState/EmptyState';
 
 const InstructorDetailPage = () => {
   const { instructorId } = useParams();
@@ -12,6 +16,7 @@ const InstructorDetailPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [courses, setCourses] = useState([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchInstructor = async () => {
@@ -23,22 +28,40 @@ const InstructorDetailPage = () => {
         setLoading(false);
       } catch (err) {
         setLoading(false);
+        const message = getErrorMessage(err, "Failed to load instructor");
         setError(err);
+        toast.error(message);
       }
     };
     fetchInstructor();
-  }, [instructorId]);
+  }, [instructorId, toast]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
-    return <div>Error loading instructor: {error.message}</div>;
+    return (
+      <EmptyState
+        variant="error"
+        title="Couldn't load instructor"
+        message={error.message || "Something went wrong. Please try again."}
+        actionLabel="Go Back"
+        actionTo="/instructors"
+      />
+    );
   }
 
   if (!instructor) {
-    return <div>Instructor not found</div>;
+    return (
+      <EmptyState
+        variant="not-found"
+        title="Instructor not found"
+        message="The instructor you're looking for doesn't exist or has been removed."
+        actionLabel="Browse Instructors"
+        actionTo="/instructors"
+      />
+    );
   }
 
   // Get instructor's courses

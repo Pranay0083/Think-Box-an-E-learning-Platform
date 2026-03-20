@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Modal.css';
+import { useToast } from '../../../components/common/Toast/ToastProvider';
 
 const EditUserModal = ({ isOpen, onClose, user, onSave }) => {
+    const { toast } = useToast();
     const [formData, setFormData] = useState({
         name: '',
         role: '',
@@ -69,36 +71,36 @@ const EditUserModal = ({ isOpen, onClose, user, onSave }) => {
     const validateForm = () => {
         // Basic validation
         if (!formData.name.trim()) {
-            alert('Name is required');
+            toast.error('Name is required');
             return false;
         }
 
         if (!formData.email.trim()) {
-            alert('Email is required');
+            toast.error('Email is required');
             return false;
         }
 
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
-            alert('Please enter a valid email address');
+            toast.error('Please enter a valid email address');
             return false;
         }
 
         // URL validation for image and social links
         const urlRegex = /^https?:\/\/.+/;
         if (formData.image && !urlRegex.test(formData.image)) {
-            alert('Please enter a valid image URL');
+            toast.error('Please enter a valid image URL');
             return false;
         }
 
         if (formData.socialLinks.linkedin && !urlRegex.test(formData.socialLinks.linkedin)) {
-            alert('Please enter a valid LinkedIn URL');
+            toast.error('Please enter a valid LinkedIn URL');
             return false;
         }
 
         if (formData.socialLinks.twitter && !urlRegex.test(formData.socialLinks.twitter)) {
-            alert('Please enter a valid Twitter URL');
+            toast.error('Please enter a valid Twitter URL');
             return false;
         }
 

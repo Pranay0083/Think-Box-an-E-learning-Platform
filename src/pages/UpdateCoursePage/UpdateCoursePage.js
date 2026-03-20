@@ -3,6 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getAllCourses, updateCourse } from '../../services/api';
 import './UpdateCoursePage.css';
 import Loader from '../../components/common/Loader/Loader';
+import { useToast } from '../../components/common/Toast/ToastProvider';
+import getErrorMessage from '../../utils/getErrorMessage';
+import EmptyState from '../../components/common/EmptyState/EmptyState';
 
 const UpdateCoursePage = () => {
     const { courseId } = useParams();
@@ -10,6 +13,7 @@ const UpdateCoursePage = () => {
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { toast } = useToast();
 
     useEffect(() => {
         const fetchCourse = async () => {
@@ -20,11 +24,13 @@ const UpdateCoursePage = () => {
                 setLoading(false);
             } catch (err) {
                 setLoading(false);
+                const message = getErrorMessage(err, "Failed to load course");
                 setError(err);
+                toast.error(message);
             }
         };
         fetchCourse();
-    }, [courseId]);
+    }, [courseId, toast]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -103,15 +109,33 @@ const UpdateCoursePage = () => {
         try {
             const response = await updateCourse(courseId, course, authToken);
             console.log(response.data)
+            toast.success("Course updated successfully");
             navigate(`/courses/${courseId}`);
         } catch (err) {
             console.log(err);
+            toast.error(getErrorMessage(err, "Failed to update course"));
         }
     };
 
     if (loading) return <Loader />;
-    if (error) return <div>Error loading course: {error.message}</div>;
-    if (!course) return <div>Course not found</div>;
+    if (error) return (
+        <EmptyState
+            variant="error"
+            title="Couldn't load course"
+            message={error.message || "Something went wrong. Please try again."}
+            actionLabel="Go Back"
+            actionTo="/courses"
+        />
+    );
+    if (!course) return (
+        <EmptyState
+            variant="not-found"
+            title="Course not found"
+            message="The course you're trying to update doesn't exist."
+            actionLabel="Browse Courses"
+            actionTo="/courses"
+        />
+    );
 
     return (
         <div className="update-course-page">

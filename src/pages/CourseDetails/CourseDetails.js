@@ -4,6 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './CourseDetails.css';
 import { deleteCourse, deleteEnrollments, enrollInCourse, getAllCourses, getEnrollments } from '../../services/api';
 import Loader from '../../components/common/Loader/Loader';
+import { useToast } from '../../components/common/Toast/ToastProvider';
+import getErrorMessage from '../../utils/getErrorMessage';
+import ConfirmDialog from '../../components/common/Modal/ConfirmDialog';
+import EmptyState from '../../components/common/EmptyState/EmptyState';
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -15,6 +19,7 @@ const CourseDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [canUpdateCourse, setCanUpdateCourse] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const { toast } = useToast();
 
   const openDeleteModal = () => {
     setIsDeleteModalOpen(true);
@@ -40,15 +45,19 @@ const CourseDetails = () => {
         setCanUpdateCourse(true);
       }
     } catch (err) {
-      setError(err.message || 'Failed to load course details');
+      const message = getErrorMessage(err, "Failed to load course details");
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
-  }, [courseId, userId]);
+  }, [courseId, userId, toast]);
 
   const fetchEnrollments = useCallback(async () => {
     if (!authToken) {
-      setError('Authentication required');
+      const message = "Authentication required";
+      setError(message);
+      toast.error(message);
       return;
     }
 
@@ -57,11 +66,13 @@ const CourseDetails = () => {
       const response = await getEnrollments(authToken);
       setEnrolledCourses(response.data);
     } catch (err) {
-      setError(err.message || 'Failed to load enrollments');
+      const message = getErrorMessage(err, "Failed to load enrollments");
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
-  }, [authToken]);
+  }, [authToken, toast]);
 
   useEffect(() => {
     fetchCourseDetails();
@@ -84,8 +95,11 @@ const CourseDetails = () => {
       await enrollInCourse(courseId, authToken);
       await fetchEnrollments();
       closeModal();
+      toast.success("Enrolled successfully");
     } catch (err) {
-      setError(err.message || 'Failed to enroll in course');
+      const message = getErrorMessage(err, "Failed to enroll in course");
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -103,8 +117,11 @@ const CourseDetails = () => {
       if (response.status === 200) {
         await fetchEnrollments();
       }
+      toast.success("Enrollment removed");
     } catch (err) {
-      setError(err.message || 'Failed to remove enrollment');
+      const message = getErrorMessage(err, "Failed to remove enrollment");
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -124,10 +141,13 @@ const CourseDetails = () => {
   if (!authToken) {
     return (
       <div className="course-detail-page">
-        <div className="error-message">
-          Please log in to view course details
-          <button onClick={() => navigate('/login')}>Login</button>
-        </div>
+        <EmptyState
+          variant="auth"
+          title="Sign in required"
+          message="Please log in to view course details and enroll."
+          actionLabel="Sign In"
+          actionTo="/login"
+        />
       </div>
     );
   }
@@ -139,16 +159,29 @@ const CourseDetails = () => {
   if (error) {
     return (
       <div className="course-detail-page">
-        <div className="error-message">
-          Error: {error}
-          <button onClick={fetchCourseDetails}>Retry</button>
-        </div>
+        <EmptyState
+          variant="error"
+          title="Couldn't load course"
+          message={typeof error === 'string' ? error : "Something went wrong. Please try again."}
+          actionLabel="Retry"
+          onAction={fetchCourseDetails}
+        />
       </div>
     );
   }
 
   if (!course) {
-    return <div className="course-detail-page">Course not found</div>;
+    return (
+      <div className="course-detail-page">
+        <EmptyState
+          variant="not-found"
+          title="Course not found"
+          message="The course you're looking for doesn't exist or has been removed."
+          actionLabel="Browse Courses"
+          actionTo="/courses"
+        />
+      </div>
+    );
   }
 
   const enrolledCourseIds = enrolledCourses.map(enrollment => enrollment.course._id);
@@ -157,9 +190,12 @@ const CourseDetails = () => {
   const handleDelete = async () => {
     try {
       await deleteCourse(courseId, authToken);
+      toast.success("Course deleted successfully");
       navigate('/courses'); // Redirect after deletion
     } catch (err) {
-      console.log(err);
+      const message = getErrorMessage(err, "Failed to delete course");
+      setError(message);
+      toast.error(message);
     }
     closeDeleteModal();
   };
@@ -266,38 +302,27 @@ const CourseDetails = () => {
         </div>
       </div>
 
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Confirm Enrollment</h2>
-            <p>Are you sure you want to enroll in this course?</p>
-            <div className="modal-buttons">
-              <button
-                onClick={handleEnroll}
-                disabled={loading}
-              >
-                {loading ? 'Enrolling...' : 'Confirm'}
-              </button>
-              <button
-                onClick={closeModal}
-                disabled={loading}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      {isDeleteModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Confirm Deletion</h2>
-            <p>Are you sure you want to delete this course?</p>
-            <button onClick={handleDelete}>Confirm</button>
-            <button onClick={closeDeleteModal}>Cancel</button>
-          </div>
-        </div>
-      )}
+      <ConfirmDialog
+        isOpen={isModalOpen}
+        title="Confirm Enrollment"
+        message="Are you sure you want to enroll in this course?"
+        confirmText={loading ? "Enrolling..." : "Confirm"}
+        cancelText="Cancel"
+        confirmDisabled={loading}
+        onConfirm={handleEnroll}
+        onClose={closeModal}
+      />
+
+      <ConfirmDialog
+        isOpen={isDeleteModalOpen}
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this course?"
+        confirmText="Confirm"
+        cancelText="Cancel"
+        variant="danger"
+        onConfirm={handleDelete}
+        onClose={closeDeleteModal}
+      />
 
     </div>
   );

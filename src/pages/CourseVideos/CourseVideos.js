@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom';
 import { ChevronDown, ChevronUp, PlayCircle } from 'lucide-react';
 import './CourseVideos.css';
 import { getAllCourses } from '../../services/api';
-import Preloader from '../../components/common/Loader/Loader'; // Adjust the import path as needed
+import Preloader from '../../components/common/Loader/Loader';
+import EmptyState from '../../components/common/EmptyState/EmptyState';
 
 const CourseVideo = () => {
   const { courseId } = useParams();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [, setError] = useState(null);
   const [course, setCourse] = useState(null);
 
   useEffect(() => {
@@ -34,7 +35,15 @@ const CourseVideo = () => {
   }
 
   if (!course) {
-    return <div>Course not found</div>;
+    return (
+      <EmptyState
+        variant="not-found"
+        title="Course not found"
+        message="The course you're looking for doesn't exist or has been removed."
+        actionLabel="Browse Courses"
+        actionTo="/courses"
+      />
+    );
   }
 
   const currentLesson = course.modules[activeLesson.moduleIndex].lessons[activeLesson.lessonIndex];

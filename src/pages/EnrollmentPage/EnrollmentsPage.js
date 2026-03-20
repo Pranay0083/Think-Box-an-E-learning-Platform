@@ -4,12 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import './EnrollmentPage.css';
 import { getAllCourses, getEnrollments } from '../../services/api';
 import Loader from '../../components/common/Loader/Loader';
+import { useToast } from '../../components/common/Toast/ToastProvider';
+import getErrorMessage from '../../utils/getErrorMessage';
+import EmptyState from '../../components/common/EmptyState/EmptyState';
 
 const EnrollmentPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchEnrollments = async () => {
@@ -27,28 +31,51 @@ const EnrollmentPage = () => {
           );
           setEnrolledCourses(enrolledCoursesData);
         } else {
-          setError(new Error("Auth token not found"));
+          const message = "Auth token not found";
+          setError(new Error(message));
+          toast.error(message);
         }
         setLoading(false);
       } catch (err) {
         console.error('Error fetching enrollments:', err); // Log any errors
         setLoading(false);
+        const message = getErrorMessage(err, "Failed to load enrollments");
         setError(err);
+        toast.error(message);
       }
     };
     fetchEnrollments();
-  }, []);
+  }, [toast]);
 
   if (loading) {
     return <Loader/>;
   }
 
   if (error) {
-    return <div>Error loading enrollments: {error.message}</div>;
+    return (
+      <EmptyState
+        variant={error.message === "Auth token not found" ? "auth" : "error"}
+        title={error.message === "Auth token not found" ? "Sign in required" : "Something went wrong"}
+        message={error.message === "Auth token not found"
+          ? "Please log in to view your enrollments."
+          : error.message || "Failed to load your enrollments."}
+        actionLabel={error.message === "Auth token not found" ? "Sign In" : "Retry"}
+        actionTo={error.message === "Auth token not found" ? "/login" : undefined}
+        onAction={error.message !== "Auth token not found" ? () => window.location.reload() : undefined}
+      />
+    );
   }
 
   if (!enrolledCourses || enrolledCourses.length === 0) {
-    return <div>No enrolled courses found</div>;
+    return (
+      <EmptyState
+        variant="empty"
+        title="No enrollments yet"
+        message="You haven't enrolled in any courses. Browse our catalog and get started!"
+        actionLabel="Browse Courses"
+        actionTo="/courses"
+      />
+    );
   }
 
   return (

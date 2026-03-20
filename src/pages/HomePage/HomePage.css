@@ -1,102 +1,97 @@
 .home-page {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
+  overflow-x: hidden;
 }
 
-/* Common styles - create a new file src/styles/common.css */
+/* ── Shared landing buttons ── */
 .primary-button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
-  color: white;
+  padding: 0.85rem 1.75rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: var(--color-primary-contrast);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px var(--glow-primary);
 }
 
 .primary-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--glow-primary);
+}
+
+.primary-button:active {
+  transform: translateY(0);
 }
 
 .secondary-button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 2rem;
-  background: white;
-  color: #2563eb;
-  border: 2px solid #2563eb;
-  border-radius: 8px;
+  padding: 0.85rem 1.75rem;
+  background: var(--color-card);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 12px;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .secondary-button:hover {
-  background: #f0f7ff;
+  background: var(--color-bg-elevated);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.secondary-button:active {
+  transform: translateY(0);
 }
 
 .enroll-button {
   width: 100%;
   padding: 0.75rem;
-  background: #2563eb;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .enroll-button:hover {
-  background: #1d4ed8;
+  background: var(--color-primary-600);
+  transform: translateY(-1px);
 }
 
-/* Media Queries */
+.enroll-button:active {
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
 @media (max-width: 1024px) {
   .hero-section {
     grid-template-columns: 1fr;
     text-align: center;
     gap: 2rem;
   }
-
-  .hero-buttons {
-    justify-content: center;
-  }
-
-  .stats {
-    justify-content: center;
-  }
-
-  .hero-content h1 {
-    font-size: 2.5rem;
-  }
+  .hero-buttons { justify-content: center; }
+  .stats { justify-content: center; }
+  .hero-content h1 { font-size: 2.5rem; }
 }
 
 @media (max-width: 768px) {
-  .home-page {
-    padding: 0 1rem;
-  }
-
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .courses-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-content h1 {
-    font-size: 2rem;
-  }
-
-  .stats {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
+  .home-page { padding: 0 1rem; }
+  .hero-content h1 { font-size: 2rem; }
+  .stats { flex-direction: column; gap: 1.5rem; }
 }

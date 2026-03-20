@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, Sun, Moon } from 'lucide-react';
 import './Header.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '../../../theme/ThemeProvider';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,6 +17,7 @@ const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const headerRef = useRef(null);
+    const { theme, toggleTheme } = useTheme();
 
     useEffect(() => {
         // Close the menu when the location changes (i.e., navigate to a different page)
@@ -58,6 +60,14 @@ const Header = () => {
 
                 <div className="header-actions">
                     {/* <button aria-label="Search"> <Search size={20} /> </button> */}
+                    <button
+                        className="theme-toggle-button"
+                        aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+                        onClick={toggleTheme}
+                        type="button"
+                    >
+                        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+                    </button>
                     <button aria-label="Account" 
                     onClick={() => isLogin ? navigate(`/profile/${userId}`) : navigate('/login')}
                     >

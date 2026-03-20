@@ -5,14 +5,17 @@ import { Search, Star, Award, Users } from 'lucide-react';
 import './InstructorPage.css';
 import { getAllInstructors } from '../../services/api';
 import Loader from '../../components/common/Loader/Loader';
+import { useToast } from '../../components/common/Toast/ToastProvider';
+import getErrorMessage from '../../utils/getErrorMessage';
 
 const InstructorPage = () => {
   const navigate = useNavigate();
   const [instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedExpertise, setSelectedExpertise] = useState('all');
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchInstructors = async () => {
@@ -23,11 +26,13 @@ const InstructorPage = () => {
         setLoading(false);
       } catch (err) {
         setLoading(false);
+        const message = getErrorMessage(err, "Failed to load instructors");
         setError(err);
+        toast.error(message);
       }
     };
     fetchInstructors();
-  }, []);
+  }, [toast]);
 
   const filteredInstructors = instructors.filter(instructor =>
     instructor.name.toLowerCase().includes(searchQuery.toLowerCase()) &&

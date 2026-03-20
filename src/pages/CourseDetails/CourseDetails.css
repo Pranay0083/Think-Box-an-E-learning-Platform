@@ -13,13 +13,13 @@
 
 .course-hero-content h1 {
   font-size: 2.5rem;
-  color: #1a1a1a;
+  color: var(--color-text);
   margin-bottom: 1.5rem;
 }
 
 .course-description {
   font-size: 1.125rem;
-  color: #4b5563;
+  color: var(--color-text-muted);
   line-height: 1.6;
   margin-bottom: 2rem;
 }
@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 .course-preview {
@@ -58,7 +58,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--color-overlay-strong);
   color: white;
   padding: 1rem;
   border-radius: 12px;
@@ -68,7 +68,7 @@
 }
 
 .preview-button:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--color-overlay);
 }
 
 .content-section {
@@ -77,7 +77,7 @@
 
 .content-section h2 {
   font-size: 1.875rem;
-  color: #1a1a1a;
+  color: var(--color-text);
   margin-bottom: 2rem;
 }
 
@@ -91,14 +91,14 @@
 
 .learning-objectives li {
   padding: 1rem;
-  background: #f9fafb;
+  background: var(--color-bg-elevated);
   border-radius: 8px;
-  color: #4b5563;
+  color: var(--color-text-muted);
 }
 
 .module-card {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   margin-bottom: 1rem;
   overflow: hidden;
@@ -109,12 +109,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: #f9fafb;
+  background: var(--color-bg-elevated);
 }
 
 .module-header h3 {
   font-size: 1.125rem;
-  color: #1a1a1a;
+  color: var(--color-text);
 }
 
 .module-lessons {
@@ -127,13 +127,13 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  border-top: 1px solid #e5e7eb;
-  color: #4b5563;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
 }
 
 .module-lessons li span:last-child {
   margin-left: auto;
-  color: #6b7280;
+  color: var(--color-text-muted);
   font-size: 0.875rem;
 }
 
@@ -166,17 +166,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal {
-  background: white;
+  background: var(--color-card);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px var(--color-shadow);
 }
 
 .modal h2 {

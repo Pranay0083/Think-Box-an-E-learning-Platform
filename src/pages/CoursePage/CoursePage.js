@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import CourseCard from '../../components/common/CourseCard/CourseCard';
 import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
-import './CoursePage.css';
-import { createCourse, getCourses, getCurrentUser } from '../../services/api';
 import Loader from '../../components/common/Loader/Loader';
+import { createCourse, getCourses, getCurrentUser } from '../../services/api';
+import { useToast } from '../../components/common/Toast/ToastProvider';
+import getErrorMessage from '../../utils/getErrorMessage';
+import EmptyState from '../../components/common/EmptyState/EmptyState';
+import './CoursePage.css';
+
+const categories = ['all', 'Web Development', 'Machine Learning', 'Data Science'];
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -14,8 +19,10 @@ const CoursesPage = () => {
   const [error, setError] = useState(null);
   const [isUserInstructor, setIsUserInstructor] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { toast } = useToast();
 
   const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+
   useEffect(() => {
     const checkUserRole = async () => {
       if (authToken) {
@@ -38,47 +45,56 @@ const CoursesPage = () => {
       try {
         const response = await getCourses();
         setCourses(response.data);
-        setLoading(false);
       } catch (err) {
-        setLoading(false);
+        const message = getErrorMessage(err, "Failed to load courses");
         setError(err);
+        toast.error(message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCourses();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [toast]);
 
   const filteredCourses = courses.filter(course =>
     course.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
     (selectedCategory === 'all' || course.category === selectedCategory)
   );
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCreateCourse = async (newCourse) => {
-    const response = await createCourse(newCourse, authToken)
-    console.log('New Course:', response.data);
+    try {
+      await createCourse(newCourse, authToken);
+      toast.success("Course created successfully");
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Failed to create course"));
+    }
   };
 
   if (error) {
-    return <div>Error loading courses: {error.message}</div>;
+    return (
+      <div className="cp-page">
+        <EmptyState
+          variant="error"
+          title="Couldn't load courses"
+          message={error.message || "Something went wrong. Please try again later."}
+          actionLabel="Retry"
+          onAction={() => window.location.reload()}
+        />
+      </div>
+    );
   }
 
   return (
-    <div className="courses-page">
-      <div className="courses-header">
+    <div className="cp-page">
+      <div className="cp-header">
         <h1>Explore Our Courses</h1>
         <p>Discover the perfect course to advance your skills</p>
       </div>
 
-      <div className="courses-filters">
-        <div className="search-bar">
-          <Search size={20} />
+      <div className="cp-toolbar">
+        <div className="cp-search">
+          <Search size={18} className="cp-search-icon" />
           <input
             type="text"
             placeholder="Search courses..."
@@ -87,42 +103,39 @@ const CoursesPage = () => {
           />
         </div>
 
-        {isUserInstructor && <button className='createCourseButton' onClick={openModal}>Create Course</button>}
+        {isUserInstructor && (
+          <button className="cp-create-btn" onClick={() => setIsModalOpen(true)}>
+            <Plus size={18} /> New Course
+          </button>
+        )}
+      </div>
 
-        <div className="category-filters">
+      <div className="cp-tags">
+        {categories.map((cat) => (
           <button
-            className={`category-btn ${selectedCategory === 'all' ? 'active' : ''}`}
-            onClick={() => setSelectedCategory('all')}
+            key={cat}
+            className={`cp-tag ${selectedCategory === cat ? 'cp-tag--active' : ''}`}
+            onClick={() => setSelectedCategory(cat)}
           >
-            All
+            {cat === 'all' ? 'All Courses' : cat}
           </button>
-          <button
-            className={`category-btn ${selectedCategory === 'Web Development' ? 'active' : ''}`}
-            onClick={() => setSelectedCategory('Web Development')}
-          >
-            Web Development
-          </button>
-          <button
-            className={`category-btn ${selectedCategory === 'Machine Learning' ? 'active' : ''}`}
-            onClick={() => setSelectedCategory('Machine Learning')}
-          >
-            Machine Learning
-          </button>
-          <button
-            className={`category-btn ${selectedCategory === 'Data Science' ? 'active' : ''}`}
-            onClick={() => setSelectedCategory('Data Science')}
-          >
-            Data Science
-          </button>
-        </div>
+        ))}
       </div>
 
       {loading ? (
-        <div className="courses-grid">
-        <Loader />
-        </div>
+        <Loader inline />
+      ) : filteredCourses.length === 0 ? (
+        <EmptyState
+          variant="empty"
+          title={searchQuery || selectedCategory !== 'all' ? 'No matches found' : 'No courses yet'}
+          message={
+            searchQuery || selectedCategory !== 'all'
+              ? 'Try adjusting your search or filters.'
+              : 'Courses will appear here once they are published.'
+          }
+        />
       ) : (
-        <div className="courses-grid">
+        <div className="cp-grid">
           {filteredCourses.map((course) => (
             <CourseCard key={course._id} course={course} />
           ))}
@@ -132,7 +145,7 @@ const CoursesPage = () => {
       {isModalOpen && (
         <CourseCreationModal
           isOpen={isModalOpen}
-          onClose={closeModal}
+          onClose={() => setIsModalOpen(false)}
           onCreate={handleCreateCourse}
         />
       )}

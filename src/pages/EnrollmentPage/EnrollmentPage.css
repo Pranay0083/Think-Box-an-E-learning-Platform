@@ -10,7 +10,7 @@
 
 .page-header h1 {
   font-size: 2.5rem;
-  color: #1a1a1a;
+  color: var(--color-text);
   margin-bottom: 2rem;
 }
 
@@ -25,13 +25,13 @@
   align-items: center;
   gap: 1rem;
   padding: 1.5rem;
-  background: white;
+  background: var(--color-card);
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px var(--color-shadow);
 }
 
 .stat-card svg {
-  color: #2563eb;
+  color: var(--color-primary);
 }
 
 .stat-info {
@@ -42,11 +42,11 @@
 .stat-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--color-text);
 }
 
 .stat-label {
-  color: #6b7280;
+  color: var(--color-text-muted);
   font-size: 0.875rem;
 }
 
@@ -56,7 +56,7 @@
 
 .enrolled-courses h2 {
   font-size: 1.875rem;
-  color: #1a1a1a;
+  color: var(--color-text);
   margin-bottom: 2rem;
 }
 
@@ -67,10 +67,10 @@
 }
 
 .enrolled-course-card {
-  background: white;
+  background: var(--color-card);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px var(--color-shadow);
   transition: transform 0.3s ease;
 }
 
@@ -94,12 +94,12 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--color-border);
 }
 
 .progress {
   height: 100%;
-  background: #2563eb;
+  background: var(--color-primary);
 }
 
 .course-content {
@@ -108,7 +108,7 @@
 
 .course-content h3 {
   font-size: 1.25rem;
-  color: #1a1a1a;
+  color: var(--color-text);
   margin-bottom: 1rem;
 }
 
@@ -116,14 +116,14 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
-  color: #6b7280;
+  color: var(--color-text-muted);
   font-size: 0.875rem;
 }
 
 .continue-button {
   width: 100%;
   padding: 0.75rem;
-  background: #2563eb;
+  background: var(--color-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -133,19 +133,19 @@
 }
 
 .continue-button:hover {
-  background: #1d4ed8;
+  background: var(--color-primary-600);
 }
 
 .learning-path {
-  background: white;
+  background: var(--color-card);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px var(--color-shadow);
 }
 
 .learning-path h2 {
   font-size: 1.875rem;
-  color: #1a1a1a;
+  color: var(--color-text);
   margin-bottom: 2rem;
 }
 
@@ -161,7 +161,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #e5e7eb;
+  background: var(--color-border);
 }
 
 .timeline-item {
@@ -175,29 +175,29 @@
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
-  background: #2563eb;
-  border: 2px solid white;
+  background: var(--color-primary);
+  border: 2px solid var(--color-card);
 }
 
 .timeline-content {
-  background: #f9fafb;
+  background: var(--color-bg-elevated);
   padding: 1rem;
   border-radius: 8px;
 }
 
 .timeline-content h4 {
-  color: #1a1a1a;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
 }
 
 .timeline-content p {
-  color: #6b7280;
+  color: var(--color-text-muted);
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
 }
 
 .timeline-content .duration {
-  color: #2563eb;
+  color: var(--color-primary);
   font-size: 0.875rem;
   font-weight: 500;
 }

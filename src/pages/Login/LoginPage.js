@@ -235,10 +235,10 @@ const LoginPage = () => {
   }
 
   return (
-    <main>
+    <main className="login-page">
       {isLoginForm ? LoginForm() : SignupForm()}
 
-      <section className={`form__animation`}>
+      <section className="form__animation">
         <div id="ball">
           <div className="ball">
             <div id="face">

@@ -1,0 +1,115 @@
+.confirmDialogOverlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1600;
+  padding: 16px;
+}
+
+.confirmDialog {
+  width: 100%;
+  max-width: 480px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px var(--color-shadow);
+  overflow: hidden;
+  animation: confirmIn 220ms ease-out both;
+}
+
+.confirmDialog-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.confirmDialog-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.confirmDialog-body {
+  padding: 16px 20px;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  font-size: 14px;
+}
+
+.confirmDialog-actions {
+  padding: 14px 20px 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.confirmDialog-confirm {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 120ms ease, opacity 120ms ease, background-color 200ms ease;
+}
+
+.confirmDialog-confirm.primary {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.confirmDialog-confirm.danger {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.confirmDialog-confirm:active {
+  transform: scale(0.99);
+}
+
+.confirmDialog-confirm:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.confirmDialog-cancel {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 600;
+  transition: background-color 200ms ease;
+}
+
+.confirmDialog-cancel:hover {
+  background: var(--color-bg-elevated);
+}
+
+@keyframes confirmIn {
+  from {
+    transform: translateY(8px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 420px) {
+  .confirmDialog-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confirmDialog {
+    animation: none;
+  }
+}
+

@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: var(--color-overlay-strong);
   display: none;
   align-items: center;
   justify-content: center;
@@ -18,12 +18,12 @@
 }
 
 .modalContent {
-  background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+  background: linear-gradient(to bottom right, var(--color-card), var(--color-bg-elevated));
   width: 90%;
   max-width: 1000px;
   max-height: 90vh;
   border-radius: 16px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 25px 50px -12px var(--color-shadow);
   overflow-y: auto;
   position: relative;
   animation: slideIn 0.3s ease-out;
@@ -43,20 +43,20 @@
 /* Modal Header */
 .modalHeader {
   padding: 1.5rem 2rem;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--color-bg-elevated);
   backdrop-filter: blur(10px);
   z-index: 1;
 }
 
 .modalHeader h2 {
   font-size: 1.5rem;
-  color: #2d3748;
+  color: var(--color-text);
   margin: 0;
   font-weight: 600;
 }
@@ -65,7 +65,7 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #64748b;
+  color: var(--color-text-muted);
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 50%;
@@ -78,8 +78,8 @@
 }
 
 .closeButton:hover {
-  background-color: #f1f5f9;
-  color: #334155;
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text);
 }
 
 /* Form Styles */
@@ -104,7 +104,7 @@
 .label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #4a5568;
+  color: var(--color-text-muted);
   font-weight: 500;
   font-size: 0.875rem;
 }
@@ -113,10 +113,10 @@
 .textarea {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background-color: white;
-  color: #2d3748;
+  background-color: var(--color-card);
+  color: var(--color-text);
   font-size: 0.875rem;
   transition: all 0.2s;
 }
@@ -124,8 +124,8 @@
 .input:focus,
 .textarea:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .textarea {
@@ -135,30 +135,30 @@
 
 /* Module and Lesson Styles */
 .moduleCard {
-  background-color: #f8fafc;
+  background-color: var(--color-bg-elevated);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
 }
 
 .moduleCard h3 {
-  color: #2d3748;
+  color: var(--color-text);
   font-size: 1.125rem;
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
 .lessonCard {
-  background-color: white;
+  background-color: var(--color-card);
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
 }
 
 .lessonCard h4 {
-  color: #4a5568;
+  color: var(--color-text-muted);
   font-size: 1rem;
   margin-bottom: 0.75rem;
   font-weight: 500;
@@ -166,9 +166,9 @@
 
 /* Buttons */
 .addButton {
-  background-color: #f1f5f9;
-  color: #3b82f6;
-  border: 1px dashed #cbd5e1;
+  background-color: var(--color-bg-elevated);
+  color: var(--color-primary);
+  border: 1px dashed var(--color-border-strong);
   padding: 0.75rem 1rem;
   border-radius: 8px;
   cursor: pointer;
@@ -178,13 +178,13 @@
 }
 
 .addButton:hover {
-  background-color: #e2e8f0;
-  border-color: #94a3b8;
+  background-color: var(--color-border);
+  border-color: var(--color-border-strong);
 }
 
 .submitButton {
-  background-color: #3b82f6;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
   border: none;
   padding: 0.75rem 2rem;
   border-radius: 8px;
@@ -194,7 +194,7 @@
 }
 
 .submitButton:hover {
-  background-color: #2563eb;
+  background-color: var(--color-primary-600);
   transform: translateY(-1px);
 }
 
@@ -202,8 +202,8 @@
   display: flex;
   justify-content: flex-end;
   padding: 1.5rem 2rem;
-  background-color: #f8fafc;
-  border-top: 1px solid #e2e8f0;
+  background-color: var(--color-bg-elevated);
+  border-top: 1px solid var(--color-border);
   position: sticky;
   bottom: 0;
 }

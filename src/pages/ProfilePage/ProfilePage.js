@@ -5,6 +5,9 @@ import { deleteUser, getCurrentUser, logout, updateUser } from '../../services/a
 import EditUserModal from './EditModal/Modal';
 import './ProfilePage.css'
 import Loader from '../../components/common/Loader/Loader';
+import { useToast } from '../../components/common/Toast/ToastProvider';
+import getErrorMessage from '../../utils/getErrorMessage';
+import ConfirmDialog from '../../components/common/Modal/ConfirmDialog';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -15,6 +18,7 @@ const ProfilePage = () => {
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { toast } = useToast();
 
   const authToken = localStorage.getItem("authToken") || sessionStorage.getItem('authToken');
   const userId = localStorage.getItem("userID") || sessionStorage.getItem("userID");
@@ -37,15 +41,18 @@ const ProfilePage = () => {
 
   const handleSave = async (formData) => {
     if (!formData || typeof formData !== 'object') {
-      throw new Error('Invalid form data provided');
+      toast.error('Invalid form data provided');
+      return;
     }
 
     if (!id) {
-      throw new Error('User ID is required');
+      toast.error('User ID is required');
+      return;
     }
 
     if (!authToken) {
-      throw new Error('Authentication token is missing');
+      toast.error('Authentication token is missing');
+      return;
     }
 
     try {
@@ -110,11 +117,13 @@ const ProfilePage = () => {
 
       setUserData(response.data);
       setIsEditModalOpen(false);
+      toast.success("Profile updated successfully");
 
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || 'An error occurred while saving';
       setError(errorMessage);
       console.error('Save Error:', error);
+      toast.error(errorMessage);
 
     } finally {
       setLoading(false);
@@ -130,10 +139,20 @@ const ProfilePage = () => {
   };
 
   const handleDeleteAccount = async () => {
-    await deleteUser(userId, authToken);
-    localStorage.clear();
-    navigate('/');
-    window.location.reload();
+    try {
+      setLoading(true);
+      await deleteUser(userId, authToken);
+      toast.success("Account deleted successfully");
+      localStorage.clear();
+      navigate('/');
+      window.location.reload();
+    } catch (err) {
+      const message = getErrorMessage(err, "Failed to delete account");
+      toast.error(message);
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (error) {
@@ -323,16 +342,17 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Confirm Deletion</h2>
-            <p>Are you sure you want to delete this Account?</p>
-            <button onClick={handleDeleteAccount}>Confirm</button>
-            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
-          </div>
-        </div>
-      )}
+      <ConfirmDialog
+        isOpen={isModalOpen}
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this Account?"
+        confirmText={loading ? "Deleting..." : "Confirm"}
+        cancelText="Cancel"
+        variant="danger"
+        confirmDisabled={loading}
+        onConfirm={handleDeleteAccount}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       {isEditModalOpen && (
         <EditUserModal

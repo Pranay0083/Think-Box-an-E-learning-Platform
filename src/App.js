@@ -18,22 +18,26 @@ import UpdateCoursePage from './pages/UpdateCoursePage/UpdateCoursePage';
 function App() {
   return (
     <Router>
-      <Header />
-        <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:courseId" element={<CourseDetailPage />} />
-          <Route path="/instructors" element={<InstructorPage />} />
-          <Route path="/instructor/:instructorId" element={<InstructorDetails />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/course/:courseId/video" element={<CourseVideoPage />} />
-            <Route path="/profile/:id" element={ <ProfilePage /> } />
-            <Route path="/enrollments" element={<EnrollmentsPage />} />
-            <Route path="/updatecourse/:courseId" element={<UpdateCoursePage />} />
-          </Route>
-        </Routes>
-      <Footer />
+      <div className="app-layout">
+        <Header />
+        <main className="app-main">
+          <Routes>
+            <Route exact path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+            <Route path="/instructors" element={<InstructorPage />} />
+            <Route path="/instructor/:instructorId" element={<InstructorDetails />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/course/:courseId/video" element={<CourseVideoPage />} />
+              <Route path="/profile/:id" element={ <ProfilePage /> } />
+              <Route path="/enrollments" element={<EnrollmentsPage />} />
+              <Route path="/updatecourse/:courseId" element={<UpdateCoursePage />} />
+            </Route>
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   )
 }

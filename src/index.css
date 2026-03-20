@@ -1,11 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,600;0,700;1,100&display=swap');
 
+html {
+  font-family: 'Poppins', sans-serif;
+  color-scheme: light dark;
+}
+
+:root {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
 :root {
   font-family: 'Poppins', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: #000;
+  color-scheme: light dark;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,24 +27,63 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+}
+
+/* Global micro-interaction primitives */
+button,
+a,
+input,
+textarea,
+select {
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease,
+    box-shadow 200ms ease, transform 120ms ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--color-focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
 }
 
 body {
   width: 100vw;
-  height: 100vh;
-  background: #fff;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
   padding: 0;
   margin: 0;
 }
 
-main {
+.login-page {
   height: 100vh;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   padding: 24px;
 }
 
-section {
+.login-page > section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,20 +96,20 @@ section {
 
 .form__title {
   text-align: center;
-  color: #030712;
+  color: var(--color-text);
   font-weight: 600;
   font-size: 30px;
   margin: 0 0 8px;
 }
 
 .form__description {
-  color: #374151;
+  color: var(--color-text-muted);
   text-align: center;
   margin: 0 0 32px;
 }
 
 .form__animation {
-  background-color: #f7f8fa;
+  background-color: var(--color-bg-elevated);
   border-radius: 24px;
   overflow: hidden;
 }
@@ -65,8 +118,8 @@ section {
   width: 40px;
   height: 40px;
   border-radius: 100%;
-  background: #000;
-  color: #fff;
+  background: var(--color-text);
+  color: var(--color-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,15 +131,14 @@ section {
   height: 24px;
 }
 
-form {
+.login-page form {
   width: 100%;
-  /* max-width: 420px; */
 }
 
 .form-control__label {
   display: block;
   margin: 14px 0 4px;
-  color: #0d0c22;
+  color: var(--color-text);
   font-weight: 500;
 }
 
@@ -94,29 +146,29 @@ form {
   height: 52px;
   display: block;
   width: 100%;
-  border: 1px solid #6b7280;
+  border: 1px solid var(--color-border);
   padding: 18px 20px;
   transition: outline 200ms ease, box-shadow 200ms ease;
   border-radius: 12px;
   outline: none;
-  background-color: #fff;
-  color: #0d0c22;
+  background-color: var(--color-card);
+  color: var(--color-text);
   margin-bottom: 28px;
   font-size: 16px;
 }
 
 .form-control:focus {
-  border-color: #0d0c22;
-  box-shadow: 0 0 0 4px rgb(0 0 0 / 10%);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-focus-ring);
 }
 
 .form-control:user-invalid {
-  border-color: #dc2626;
+  border-color: var(--color-danger);
 }
 
 .form-control:user-invalid:focus {
-  border-color: #dc2626;
-  box-shadow: 0 0 0 4px rgb(220, 38, 38, .1);
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
 }
 
 .password-field {
@@ -135,10 +187,10 @@ form {
   height: 52px;
   width: 100%;
   display: block;
-  background: #0d0c22;
+  background: var(--color-text);
   border-radius: 100px;
   border: none;
-  color: #fff;
+  color: var(--color-bg);
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;
@@ -146,7 +198,7 @@ form {
 }
 
 .form__submit:hover {
-  box-shadow: 0 -1px 10px rgba(13,12,34, 0.3);
+  box-shadow: 0 -1px 10px var(--color-shadow);
 }
 
 .password__settings {
@@ -157,7 +209,7 @@ form {
 
 .password__settings__remember {
   font-size: 14px;
-  color: #0d0c22;
+  color: var(--color-text);
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -175,7 +227,7 @@ form {
   width: 20px;
   height: 20px;
   border-radius: 6px;
-  border: 1px solid #6b7280;
+  border: 1px solid var(--color-border);
   margin-right: 12px;
   display: flex;
   align-items: center;
@@ -190,8 +242,8 @@ form {
 }
 
 input:focus + .custom__checkbox {
-  border-color: #0d0c22;
-  box-shadow: 0 0 0 4px rgb(0 0 0 / 10%);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-focus-ring);
 }
 
 input:checked + .custom__checkbox svg {
@@ -200,7 +252,7 @@ input:checked + .custom__checkbox svg {
 
 a {
   font-size: 14px;
-  color: #0875e4;
+  color: var(--color-link);
   font-weight: 500;
   text-decoration: none;
 }
@@ -216,7 +268,7 @@ a {
   height: 300px;
   padding: 1px;
   border-radius: 100%;
-  background: #0875e4;
+  background: var(--color-link);
   animation: bounce 3s ease-out forwards;
   transform: translateY(calc(-50vh - 116px));
 }
@@ -308,7 +360,7 @@ a {
 }
 
 .eye {
-  background: #fff;
+  background: var(--color-card);
   width: 30px;
   height: 30px;
   border-radius: 100%;
@@ -320,7 +372,7 @@ a {
   content: "";
   width: 15px;
   height: 15px;
-  background: #000;
+  background: var(--color-text);
   border-radius: 100%;
   display: block;
 }
@@ -329,7 +381,7 @@ a {
   width: 30px;
   height: 30px;
   border-radius: 100%;
-  background: #000;
+  background: var(--color-text);
   margin: 10px auto;
   clip-path: polygon(100% 50%, 100% 100%, 0 100%, 0 50%);
   transition: .3s;
@@ -389,8 +441,8 @@ a {
 }
 
 .ball__shadow {
-  background: rgb(0 0 0 / 5%);
-  box-shadow: 0 0 10px rgb(0 0 0 / 6%);
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 10px var(--color-shadow);
   height: 20px;
   width: 240px;
   border-radius: 50%;
@@ -463,7 +515,7 @@ a {
     display: none;
   }
 
-  main {
+  .login-page {
     display: block;
     padding: 40px 16px;
   }
@@ -483,6 +535,6 @@ a {
 }
 
 .errowhilesomething{
-  color: red;
+  color: var(--color-danger);
   font-size: small;
 }

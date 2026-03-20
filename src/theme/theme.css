@@ -1,0 +1,74 @@
+:root {
+  --color-bg: #ffffff;
+  --color-bg-elevated: #f9fafb;
+  --color-card: #ffffff;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-border-strong: #d1d5db;
+
+  --color-primary: #2563eb;
+  --color-primary-600: #1d4ed8;
+  --color-primary-contrast: #ffffff;
+  --color-accent: #0891b2;
+
+  --color-danger: #dc2626;
+  --color-success: #16a34a;
+
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-overlay-strong: rgba(0, 0, 0, 0.75);
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --color-shadow-lg: rgba(0, 0, 0, 0.12);
+
+  --color-focus-ring: rgba(37, 99, 235, 0.25);
+  --color-link: #0875e4;
+
+  --loader-bar: #2563eb;
+  --loader-overlay: rgba(255, 255, 255, 0.75);
+  --color-video-bg: #000;
+
+  --gradient-soft-start: #f0f7ff;
+  --gradient-soft-end: #ecfeff;
+
+  --glow-primary: rgba(37, 99, 235, 0.15);
+  --glow-accent: rgba(8, 145, 178, 0.12);
+  --color-primary-muted: rgba(37, 99, 235, 0.08);
+  --color-accent-muted: rgba(8, 145, 178, 0.08);
+  --color-star: #f59e0b;
+  --color-badge-bg: rgba(37, 99, 235, 0.08);
+  --color-badge-text: #2563eb;
+}
+
+[data-theme="dark"] {
+  --color-bg: #0b1220;
+  --color-bg-elevated: #0f172a;
+  --color-card: #111827;
+  --color-text: #e5e7eb;
+  --color-text-muted: #9ca3af;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+
+  --color-overlay: rgba(0, 0, 0, 0.65);
+  --color-overlay-strong: rgba(0, 0, 0, 0.8);
+  --color-shadow: rgba(0, 0, 0, 0.4);
+  --color-shadow-lg: rgba(0, 0, 0, 0.55);
+
+  --color-focus-ring: rgba(59, 130, 246, 0.35);
+  --color-link: #60a5fa;
+
+  --loader-overlay: rgba(17, 24, 39, 0.75);
+
+  --gradient-soft-start: #0b2347;
+  --gradient-soft-end: #083344;
+  --color-accent: #22d3ee;
+  --color-video-bg: #000;
+
+  --glow-primary: rgba(59, 130, 246, 0.2);
+  --glow-accent: rgba(34, 211, 238, 0.15);
+  --color-primary-muted: rgba(59, 130, 246, 0.12);
+  --color-accent-muted: rgba(34, 211, 238, 0.1);
+  --color-star: #fbbf24;
+  --color-badge-bg: rgba(59, 130, 246, 0.15);
+  --color-badge-text: #93c5fd;
+}
+
