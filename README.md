@@ -1,70 +1,121 @@
-# Getting Started with Create React App
+# Think-Box — An E-Learning Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-featured e-learning platform built with React 19 where students can browse courses, enroll, watch video lessons, and manage their learning journey. Instructors can create and update courses with modular content.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Light & Dark Theme** — Follows OS preference by default with a manual toggle; powered by CSS variables
+- **Course Catalog** — Browse, search, and filter courses by category
+- **Course Details** — View modules, lessons, duration, ratings, and enroll with one click
+- **Video Player** — Watch course lessons with a sidebar module navigator
+- **Enrollments** — Track enrolled courses from a dedicated dashboard
+- **Instructor Profiles** — Browse instructors and view their published courses
+- **User Profiles** — Edit profile info, change password, or delete your account
+- **Instructor Tools** — Create and update courses (available for teacher accounts)
+- **Authentication** — Login/signup with remember-me support and protected routes
+- **Toast Notifications** — Dependency-free toast system for success, error, and info feedback
+- **Confirmation Dialogs** — Custom modal dialogs for destructive actions (delete course, remove enrollment)
+- **Empty States** — Polished UI for errors, not-found, auth-required, and empty data
+- **Responsive Design** — Mobile-friendly across all pages
+- **Micro-interactions** — Hover effects, focus rings, card lifts, image zoom, and animated loaders
+- **Testimonials** — Auto-scrolling infinite marquee of student reviews on the landing page
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Layer | Technology |
+|-------|-----------|
+| Framework | React 19 |
+| Routing | React Router DOM 6 |
+| HTTP Client | Axios |
+| Icons | Lucide React |
+| Styling | CSS Variables + CSS Modules |
+| Build Tool | Create React App (react-scripts 5) |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js 18+
+- npm 9+
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone https://github.com/Pranay0083/Think-Box-an-E-learning-Platform.git
+cd Think-Box-an-E-learning-Platform
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Environment Variables
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create a `.env` file in the project root:
 
-### `npm run eject`
+```
+REACT_APP_API_URL=<your-backend-api-url>
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Development
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Opens the app at [http://localhost:3000](http://localhost:3000). Hot-reloads on file changes.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Production Build
 
-## Learn More
+```bash
+npm run build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Outputs optimized static files to the `build/` folder.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Project Structure
 
-### Code Splitting
+```
+src/
+├── components/
+│   ├── Auth/              # PrivateRoute
+│   ├── Home/              # Hero, Features, Courses, Testimonials, CTA
+│   └── common/            # Header, Footer, CourseCard, Loader, Toast, Modal, EmptyState
+├── pages/
+│   ├── HomePage/          # Landing page
+│   ├── Login/             # Login & signup
+│   ├── CoursePage/        # Course catalog + creation modal
+│   ├── CourseDetails/     # Single course view + enroll/delete
+│   ├── CourseVideos/      # Video player + module sidebar
+│   ├── EnrollmentPage/    # User's enrolled courses
+│   ├── InstructorPage/    # Instructor listing
+│   ├── InstructorDetails/ # Single instructor profile
+│   ├── ProfilePage/       # User profile + edit modal
+│   └── UpdateCoursePage/  # Edit course form
+├── services/
+│   └── api.js             # Axios API client
+├── theme/
+│   ├── theme.css          # CSS variables (light/dark)
+│   └── ThemeProvider.jsx  # Theme context + toggle hook
+├── utils/
+│   └── getErrorMessage.js # Error message parser
+├── App.js                 # Root layout + routes
+├── index.js               # Entry point (providers)
+└── index.css              # Global styles + login page styles
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Routes
 
-### Analyzing the Bundle Size
+| Path | Access | Page |
+|------|--------|------|
+| `/` | Public | Landing page |
+| `/login` | Public | Login / Signup |
+| `/courses` | Public | Course catalog |
+| `/courses/:courseId` | Auth required | Course details |
+| `/instructors` | Public | Instructor listing |
+| `/instructor/:instructorId` | Public | Instructor profile |
+| `/course/:courseId/video` | Auth required | Video player |
+| `/enrollments` | Auth required | My enrollments |
+| `/profile/:id` | Auth required | User profile |
+| `/updatecourse/:courseId` | Auth required | Edit course (instructor) |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is open source and available under the [MIT License](LICENSE).
